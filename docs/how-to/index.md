@@ -1,5 +1,5 @@
 <!--
-Copyright {{ copyright_year }} {{ author_name }}
+Copyright 2026 Terradue
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -16,9 +16,10 @@ limitations under the License.
 
 # How-to guides
 
-How-to guides are task-oriented recipes. Each page should help an already-oriented user complete one specific task.
+Use these guides when you already know what you want to accomplish.
 
-Available guides:
+- [Install the client](install.md): choose the PyPI, source, or development installation path.
+- [Perform item transactions](transactions.md): create, retrieve, replace, patch, and delete items; authenticate; and use async calls.
 
-- [Install](install.md)
-- [Use the CLI](use-cli.md)
+For a guided introduction rather than a task recipe, start with the
+[First steps tutorial](../tutorials/first-steps.md).

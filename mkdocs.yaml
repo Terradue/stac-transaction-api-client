@@ -30,13 +30,13 @@ nav:
   - How-to guides:
       - Overview: how-to/index.md
       - Install: how-to/install.md
-      - Use the CLI: how-to/use-cli.md
+      - Perform item transactions: how-to/transactions.md
   - Reference:
       - Overview: reference/index.md
-      - API: reference/api.md
+      - API objects: reference/api.md
   - Explanation:
       - Overview: explanation/index.md
-      - Architecture: explanation/architecture.md
+      - Architecture and design: explanation/architecture.md
 
 theme:
   name: material

@@ -16,18 +16,42 @@ limitations under the License.
 
 # STAC Transaction API Client
 
-A Python Client for the SpatioTemporal Asset Catalog API - Transaction extension
+`stac-transaction-api-client` is a Python client for the STAC API Transaction
+Extension. It provides sync and async endpoint helpers backed by `httpx` and
+uses PySTAC objects for STAC item payloads and successful item responses.
 
-Use these docs by intent:
+## Choose the documentation you need
 
-- [Tutorials](tutorials/): learn by completing a guided path.
-- [How-to guides](how-to/): solve specific tasks.
-- [Reference](reference/): look up commands, APIs, and configuration.
-- [Explanation](explanation/): understand design decisions and concepts.
+- [Tutorials](tutorials/): learn the client through a complete item lifecycle.
+- [How-to guides](how-to/): install the package or perform a specific transaction.
+- [Reference](reference/): look up endpoint signatures, response types, and client options.
+- [Explanation](explanation/): understand generation, PySTAC integration, and optimistic locking.
 
 ## Quick start
 
-```bash
-pip install stac-transaction-api-client
-stac_transaction_api_client --version
+Install the package with the PySTAC integration used by the transaction modules:
+
+```console
+python -m pip install "stac-transaction-api-client[pystac]"
 ```
+
+Create a client and retrieve an item:
+
+```python
+from stac_transaction_api_client import Client
+from stac_transaction_api_client.api.transaction import get_feature
+
+client = Client(base_url="https://stac.example.com")
+response = get_feature.sync_detailed(
+    "example-collection",
+    "example-item",
+    client=client,
+)
+
+item = response.parsed
+if item is not None:
+    print(item.id)
+```
+
+Start with [First steps](tutorials/first-steps.md) for a guided create, read,
+replace, and delete workflow.
