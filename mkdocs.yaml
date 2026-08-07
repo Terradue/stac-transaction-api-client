@@ -39,6 +39,7 @@ nav:
       - Architecture and design: explanation/architecture.md
 
 theme:
+  logo: imgs/icon-eoap.png
   name: readthedocs
   features:
     - navigation.sections
