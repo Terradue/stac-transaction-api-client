@@ -1,0 +1,43 @@
+# Copyright 2026 Terradue
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+version: '3'
+
+includes:
+  json: https://raw.githubusercontent.com/Terradue/taskfile-utils/refs/heads/main/json.yaml
+  openapi: https://raw.githubusercontent.com/Terradue/taskfile-utils/refs/heads/main/openapi.yaml
+  quality: https://raw.githubusercontent.com/Terradue/taskfile-utils/refs/heads/main/quality.yaml
+
+tasks:
+
+  bundle_api:
+    cmds:
+    - mkdir -p schemas
+    - wget https://raw.githubusercontent.com/stac-api-extensions/transaction/refs/heads/main/openapi.yaml -O ./schemas/openapi_original.yaml
+    - task: openapi:bundle
+      vars:
+        API: ./schemas/openapi_original.yaml
+        OUTPUT: ./schemas/openapi.yaml
+
+  client_generation:
+    cmds:
+    - task: openapi:generate_client
+      vars:
+        API: ./schemas/openapi.yaml
+    # replace with pystac.Item
+    - rm -rf ./src/stac_transaction_api_client/models
+
+  default:
+    cmds:
+    - task: quality:pre-commit:run
