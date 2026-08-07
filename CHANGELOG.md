@@ -42,11 +42,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - MkDocs configuration.
 - Taskfile integration with Terradue remote task utilities.
 
-## [0.1.0] - 2026-01-01
+## [1.0.0-rc.2] - 2026-08-07
 
 ### Added
 
 - Initial project release.
 
-[Unreleased]: https://github.com/Terradue/stac-transaction-api-client/compare/0.1.0...HEAD
-[0.1.0]: https://github.com/Terradue/stac-transaction-api-client/releases/tag/0.1.0
+[Unreleased]: https://github.com/Terradue/stac-transaction-api-client/compare/1.0.0-rc.2...HEAD
+[1.0.0-rc.2]: https://github.com/Terradue/stac-transaction-api-client/releases/tag/1.0.0-rc.2
