@@ -42,6 +42,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - MkDocs configuration.
 - Taskfile integration with Terradue remote task utilities.
 
+## [1.0.1-rc.2] - 2026-08-24
+
+### Fixed
+
+- `model_validate_json()` expects a JSON string, while `response.json()` returns an already parsed object.
+
 ## [1.0.0-rc.2] - 2026-08-07
 
 ### Added

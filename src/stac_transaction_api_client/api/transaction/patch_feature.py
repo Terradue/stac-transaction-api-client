@@ -65,15 +65,15 @@ def _parse_response(
         return cast("Any", None)
 
     if response.status_code == 400:
-        return Exception_.model_validate_json(response.json())
+        return Exception_.model_validate(response.json())
 
     if response.status_code == 404:
         return cast("Any", None)
 
     if response.status_code == 500:
-        return Exception_.model_validate_json(response.json())
+        return Exception_.model_validate(response.json())
 
-    return Exception_.model_validate_json(response.json())
+    return Exception_.model_validate(response.json())
 
 
 def _build_response(
