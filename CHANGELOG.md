@@ -59,5 +59,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Initial project release.
 
-[Unreleased]: https://github.com/Terradue/stac-transaction-api-client/compare/1.0.0-rc.2...HEAD
+[Unreleased]: https://github.com/Terradue/stac-transaction-api-client/compare/1.0.1-rc.2...HEAD
+[1.0.0-rc.2]: https://github.com/Terradue/stac-transaction-api-client/compare/v1.0.0-rc.2...v1.0.1-rc.2
 [1.0.0-rc.2]: https://github.com/Terradue/stac-transaction-api-client/releases/tag/1.0.0-rc.2
