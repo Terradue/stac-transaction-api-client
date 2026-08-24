@@ -37,16 +37,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Initial Hatch-based Python project scaffold.
-- Diátaxis documentation structure.
-- MkDocs configuration.
-- Taskfile integration with Terradue remote task utilities.
-
 ## [1.0.1-rc.2] - 2026-08-24
+
+### Added
+
+- 46 tests with 77% overall coverage about request paths, headers, payloads, response parsing, sync/async transport, authentication, and error handling.
+
+### Changed
+
+- `PATCH` now accepts partial mappings while retaining `pystac.Item` support
 
 ### Fixed
 
 - `model_validate_json()` expects a JSON string, while `response.json()` returns an already parsed object.
+- `POST` now accepts `pystac.ItemCollection` instead of `pystac.Collection`, including empty item collections.
+- Verified required `PUT`/`DELETE` and optional `PATCH` `If-Match` behavior
 
 ## [1.0.0-rc.2] - 2026-08-07
 
