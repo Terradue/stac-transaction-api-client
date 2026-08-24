@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://eoap.github.io/stac-transaction-api-client/reference/" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Overview - STAC Transaction API Client</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../assets/_mkdocstrings.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Overview";
+        var mkdocs_page_input_path = "reference/index.md";
+        var mkdocs_page_url = "/stac-transaction-api-client/reference/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="..">
+          <img src="../imgs/icon-eoap.png" class="logo" alt="Logo"/>
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Tutorials</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../tutorials/">Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../tutorials/first-steps/">First steps</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">How-to guides</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../how-to/">Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../how-to/install/">Install</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../how-to/transactions/">Perform item transactions</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Reference</span></p>
+              <ul class="current">
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Overview</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#transaction-endpoint-summary">Transaction endpoint summary</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#client-classes">Client classes</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#detailed-responses">Detailed responses</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#current-pystac-body-types">Current PySTAC body types</a>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="api/">API objects</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Explanation</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../explanation/">Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../explanation/architecture/">Architecture and design</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">STAC Transaction API Client</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Reference</li>
+      <li class="breadcrumb-item active">Overview</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/Terradue/stac-transaction-api-client/edit/main/docs/reference/index.md">Edit on stac-transaction-api-client</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <!--
+Copyright 2026 Terradue
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<h1 id="reference">Reference<a class="headerlink" href="#reference" title="Permanent link">&para;</a></h1>
+<p>This section describes the public objects and endpoint functions exposed by the
+current codebase.</p>
+<h2 id="transaction-endpoint-summary">Transaction endpoint summary<a class="headerlink" href="#transaction-endpoint-summary" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Operation</th>
+<th>HTTP request</th>
+<th>Module</th>
+<th>Sync API</th>
+<th>Async API</th>
+<th><code>If-Match</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Retrieve item</td>
+<td><code>GET /collections/{collection_id}/items/{feature_id}</code></td>
+<td><code>get_feature</code></td>
+<td><code>sync_detailed</code></td>
+<td><code>asyncio_detailed</code></td>
+<td>n/a</td>
+</tr>
+<tr>
+<td>Create item</td>
+<td><code>POST /collections/{collection_id}/items</code></td>
+<td><code>post_feature</code></td>
+<td><code>sync</code>, <code>sync_detailed</code></td>
+<td><code>asyncio</code>, <code>asyncio_detailed</code></td>
+<td>n/a</td>
+</tr>
+<tr>
+<td>Replace item</td>
+<td><code>PUT /collections/{collection_id}/items/{feature_id}</code></td>
+<td><code>update_feature</code></td>
+<td><code>sync</code>, <code>sync_detailed</code></td>
+<td><code>asyncio</code>, <code>asyncio_detailed</code></td>
+<td>required</td>
+</tr>
+<tr>
+<td>Patch item</td>
+<td><code>PATCH /collections/{collection_id}/items/{feature_id}</code></td>
+<td><code>patch_feature</code></td>
+<td><code>sync</code>, <code>sync_detailed</code></td>
+<td><code>asyncio</code>, <code>asyncio_detailed</code></td>
+<td>optional</td>
+</tr>
+<tr>
+<td>Delete item</td>
+<td><code>DELETE /collections/{collection_id}/items/{feature_id}</code></td>
+<td><code>delete_feature</code></td>
+<td><code>sync</code>, <code>sync_detailed</code></td>
+<td><code>asyncio</code>, <code>asyncio_detailed</code></td>
+<td>required</td>
+</tr>
+</tbody>
+</table>
+<h2 id="client-classes">Client classes<a class="headerlink" href="#client-classes" title="Permanent link">&para;</a></h2>
+<p><code>stac_transaction_api_client.Client</code> stores the base URL and HTTP configuration.
+<code>stac_transaction_api_client.AuthenticatedClient</code> adds an authorization token,
+using <code>Bearer</code> as the default prefix and <code>Authorization</code> as the default header
+name.</p>
+<p>Both classes support:</p>
+<ul>
+<li><code>headers</code> and <code>cookies</code> applied to requests;</li>
+<li><code>timeout</code>;</li>
+<li>TLS verification through <code>verify_ssl</code>;</li>
+<li>redirect handling through <code>follow_redirects</code>;</li>
+<li>extra <code>httpx.Client</code> and <code>httpx.AsyncClient</code> constructor arguments through <code>httpx_args</code>;</li>
+<li>sync and async context-manager use;</li>
+<li>injection of an existing <code>httpx.Client</code> or <code>httpx.AsyncClient</code>.</li>
+</ul>
+<h2 id="detailed-responses">Detailed responses<a class="headerlink" href="#detailed-responses" title="Permanent link">&para;</a></h2>
+<p>Detailed endpoint functions return <code>stac_transaction_api_client.types.Response[T]</code>.
+It contains:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>status_code</code></td>
+<td><code>http.HTTPStatus</code></td>
+<td>HTTP response status</td>
+</tr>
+<tr>
+<td><code>content</code></td>
+<td><code>bytes</code></td>
+<td>Raw response body</td>
+</tr>
+<tr>
+<td><code>headers</code></td>
+<td>mutable mapping</td>
+<td>HTTP response headers</td>
+</tr>
+<tr>
+<td><code>parsed</code></td>
+<td><code>T | None</code></td>
+<td>Parsed endpoint-specific result</td>
+</tr>
+</tbody>
+</table>
+<p>Successful item bodies are converted to <code>pystac.Item</code>. Error bodies handled by
+mutation endpoints use <code>stac_transaction_api_client.models.Exception</code>, which has
+a required <code>code</code>, an optional <code>description</code>, and allows additional fields.</p>
+<h2 id="current-pystac-body-types">Current PySTAC body types<a class="headerlink" href="#current-pystac-body-types" title="Permanent link">&para;</a></h2>
+<ul>
+<li><code>post_feature</code>: <code>pystac.Item | pystac.ItemCollection | Unset</code>.</li>
+<li><code>update_feature</code>: <code>pystac.Item | Unset</code>.</li>
+<li><code>patch_feature</code>: <code>Mapping[str, Any] | pystac.Item | Unset</code>.</li>
+</ul>
+<p>These types represent the upstream contract's single-item, bulk-item, and
+partial-item payloads while retaining PySTAC convenience for complete items.</p>
+<p>For generated signatures and docstrings, see <a href="api/">API objects</a>.</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../how-to/transactions/" class="btn btn-neutral float-left" title="Perform item transactions"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="api/" class="btn btn-neutral float-right" title="API objects">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/Terradue/stac-transaction-api-client" class="fa fa-code-fork" style="color: #fcfcfc"> stac-transaction-api-client</a>
+        </span>
+    
+    
+      <span><a href="../how-to/transactions/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="api/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

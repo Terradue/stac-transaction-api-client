@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://eoap.github.io/stac-transaction-api-client/explanation/architecture/" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>Architecture and design - STAC Transaction API Client</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../../assets/_mkdocstrings.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Architecture and design";
+        var mkdocs_page_input_path = "explanation/architecture.md";
+        var mkdocs_page_url = "/stac-transaction-api-client/explanation/architecture/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../..">
+          <img src="../../imgs/icon-eoap.png" class="logo" alt="Logo"/>
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Tutorials</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../tutorials/">Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../tutorials/first-steps/">First steps</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">How-to guides</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../how-to/">Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../how-to/install/">Install</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../how-to/transactions/">Perform item transactions</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Reference</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../reference/">Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../reference/api/">API objects</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Explanation</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../">Overview</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Architecture and design</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#source-and-generation-pipeline">Source and generation pipeline</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#runtime-layers">Runtime layers</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#transport-clients">Transport clients</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#endpoint-modules">Endpoint modules</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#why-pystac-is-used">Why PySTAC is used</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#detailed-versus-parsed-responses">Detailed versus parsed responses</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#optimistic-locking-and-etags">Optimistic locking and ETags</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#where-the-generated-typing-does-not-fully-match-the-specification">Where the generated typing does not fully match the specification</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#post-and-itemcollection">POST and ItemCollection</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#patch-and-json-merge-patch">PATCH and JSON Merge Patch</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#sync-and-async-symmetry">Sync and async symmetry</a>
+    </li>
+    </ul>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">STAC Transaction API Client</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Explanation</li>
+      <li class="breadcrumb-item active">Architecture and design</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/Terradue/stac-transaction-api-client/edit/main/docs/explanation/architecture.md">Edit on stac-transaction-api-client</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <!--
+Copyright 2026 Terradue
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<h1 id="architecture-and-design">Architecture and design<a class="headerlink" href="#architecture-and-design" title="Permanent link">&para;</a></h1>
+<p><code>stac-transaction-api-client</code> is a small generated HTTP client adapted to use
+PySTAC objects at the STAC Item boundary. Its runtime design separates transport,
+endpoint behavior, STAC objects, and error models.</p>
+<h2 id="source-and-generation-pipeline">Source and generation pipeline<a class="headerlink" href="#source-and-generation-pipeline" title="Permanent link">&para;</a></h2>
+<p>The repository keeps both the upstream and bundled OpenAPI descriptions under
+<code>schemas/</code>. <code>Taskfile.yaml</code> defines two relevant tasks:</p>
+<ol>
+<li><code>bundle_api</code> downloads the Transaction Extension <code>openapi.yaml</code> from
+   <code>stac-api-extensions/transaction</code> and bundles it locally.</li>
+<li><code>client_generation</code> runs the shared OpenAPI client generator and then removes
+   generated STAC model modules as part of the adaptation toward PySTAC.</li>
+</ol>
+<p>The resulting endpoint modules live under:</p>
+<div class="highlight"><pre><span></span><code>src/stac_transaction_api_client/api/transaction/
+</code></pre></div>
+<p>The current endpoint set is <code>get_feature</code>, <code>post_feature</code>, <code>update_feature</code>,
+<code>patch_feature</code>, and <code>delete_feature</code>.</p>
+<h2 id="runtime-layers">Runtime layers<a class="headerlink" href="#runtime-layers" title="Permanent link">&para;</a></h2>
+<p>The client can be understood as four layers:</p>
+<div class="highlight"><pre><span></span><code>application code
+    |
+    v
+transaction endpoint modules
+    |
+    +--&gt; PySTAC Item serialization/deserialization
+    |
+    v
+Client / AuthenticatedClient
+    |
+    v
+httpx.Client / httpx.AsyncClient
+    |
+    v
+STAC API
+</code></pre></div>
+<h3 id="transport-clients">Transport clients<a class="headerlink" href="#transport-clients" title="Permanent link">&para;</a></h3>
+<p><code>Client</code> owns base URL, headers, cookies, timeout, TLS verification, redirect
+behavior, and optional extra <code>httpx</code> arguments. It lazily creates either a sync
+<code>httpx.Client</code> or async <code>httpx.AsyncClient</code>.</p>
+<p><code>AuthenticatedClient</code> adds token-based authentication. By default it sends:</p>
+<div class="highlight"><pre><span></span><code>Authorization: Bearer &lt;token&gt;
+</code></pre></div>
+<p>Both classes can also wrap an externally created <code>httpx</code> client, which is useful
+when an application already manages connection pools, middleware, proxies, or
+custom transports.</p>
+<h3 id="endpoint-modules">Endpoint modules<a class="headerlink" href="#endpoint-modules" title="Permanent link">&para;</a></h3>
+<p>Each transaction operation is represented by a module rather than a method on
+the client object. A typical generated module performs four steps:</p>
+<ol>
+<li>build request arguments;</li>
+<li>send the request through the configured client;</li>
+<li>parse the HTTP response into a Python object;</li>
+<li>optionally wrap the result in <code>Response[T]</code>.</li>
+</ol>
+<p>Mutation modules provide convenience functions that return only the parsed body
+and <code>*_detailed</code> functions that preserve the complete response metadata.
+<code>get_feature</code> currently exposes only detailed sync and async variants.</p>
+<h2 id="why-pystac-is-used">Why PySTAC is used<a class="headerlink" href="#why-pystac-is-used" title="Permanent link">&para;</a></h2>
+<p>STAC Items already have a well-established Python representation in PySTAC.
+Rather than maintaining a second generated model for the same domain object, the
+endpoint modules serialize request bodies with <code>Item.to_dict()</code> and deserialize
+successful item responses with <code>Item.from_dict()</code>.</p>
+<p>This means callers can construct, inspect, mutate, and validate items using the
+same PySTAC objects they use elsewhere in a STAC workflow.</p>
+<p>PySTAC is declared as the <code>pystac</code> optional dependency in <code>pyproject.toml</code>, but
+the transaction endpoint modules import it directly. Consequently,
+<code>stac-transaction-api-client[pystac]</code> is the practical installation target for
+transaction use.</p>
+<h2 id="detailed-versus-parsed-responses">Detailed versus parsed responses<a class="headerlink" href="#detailed-versus-parsed-responses" title="Permanent link">&para;</a></h2>
+<p>The shared <code>Response[T]</code> type preserves:</p>
+<ul>
+<li>the <code>HTTPStatus</code> value;</li>
+<li>raw body bytes;</li>
+<li>response headers;</li>
+<li>the parsed result.</li>
+</ul>
+<p>That distinction matters for the Transaction Extension because important
+protocol state can live outside the JSON body. ETags are the most obvious
+example: callers need response headers to implement optimistic locking.</p>
+<p>Use a convenience <code>sync(...)</code> or <code>asyncio(...)</code> function when the parsed body is
+all you need. Use <code>sync_detailed(...)</code> or <code>asyncio_detailed(...)</code> when status,
+headers, or raw bytes influence application behavior.</p>
+<h2 id="optimistic-locking-and-etags">Optimistic locking and ETags<a class="headerlink" href="#optimistic-locking-and-etags" title="Permanent link">&para;</a></h2>
+<p>The Transaction Extension supports optimistic locking through ETags. A client
+first reads a resource and receives an ETag representing its current state. The
+ETag is then sent in <code>If-Match</code> for a mutation. If the resource changed in the
+meantime, the server can reject the stale write rather than silently overwrite a
+newer version.</p>
+<p>The current Python signatures encode that protocol choice explicitly:</p>
+<ul>
+<li><code>update_feature</code> requires <code>if_match</code>;</li>
+<li><code>delete_feature</code> requires <code>if_match</code>;</li>
+<li><code>patch_feature</code> makes <code>if_match</code> optional.</li>
+</ul>
+<p>This is why detailed GET responses are central to update and delete workflows:
+the parsed <code>pystac.Item</code> contains the domain object, while the response headers
+contain the concurrency token.</p>
+<h2 id="where-the-generated-typing-does-not-fully-match-the-specification">Where the generated typing does not fully match the specification<a class="headerlink" href="#where-the-generated-typing-does-not-fully-match-the-specification" title="Permanent link">&para;</a></h2>
+<p>Reusing PySTAC simplifies complete-item payloads, while mappings represent
+partial PATCH payloads.</p>
+<h3 id="post-and-itemcollection">POST and ItemCollection<a class="headerlink" href="#post-and-itemcollection" title="Permanent link">&para;</a></h3>
+<p>The Transaction Extension describes POST bodies as an Item or ItemCollection.
+The <code>post_feature</code> module therefore accepts <code>pystac.Item</code> and
+<code>pystac.ItemCollection</code>; it does not confuse bulk item creation with a STAC
+Collection metadata object.</p>
+<h3 id="patch-and-json-merge-patch">PATCH and JSON Merge Patch<a class="headerlink" href="#patch-and-json-merge-patch" title="Permanent link">&para;</a></h3>
+<p>The Transaction Extension defines PATCH according to JSON Merge Patch semantics.
+The <code>patch_feature</code> body accepts a mapping containing only the fields to be
+merged. It also retains <code>pystac.Item</code> support for applications that intentionally
+send an item-shaped payload.</p>
+<p>The underlying <code>httpx</code> client remains available for requests outside the
+generated endpoint signatures.</p>
+<h2 id="sync-and-async-symmetry">Sync and async symmetry<a class="headerlink" href="#sync-and-async-symmetry" title="Permanent link">&para;</a></h2>
+<p>The transport layer supports both blocking and asynchronous <code>httpx</code> clients.
+Mutation modules mirror that with <code>sync</code>/<code>sync_detailed</code> and
+<code>asyncio</code>/<code>asyncio_detailed</code>. This keeps endpoint semantics the same while
+allowing the integration style to match the surrounding application.</p>
+<p>Async clients can be used as context managers so connection pools are closed
+cleanly:</p>
+<div class="highlight"><pre><span></span><code><span class="k">async</span> <span class="k">with</span> <span class="n">Client</span><span class="p">(</span><span class="n">base_url</span><span class="o">=</span><span class="s2">"https://stac.example.com"</span><span class="p">)</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
+    <span class="o">...</span>
+</code></pre></div>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../" class="btn btn-neutral float-left" title="Overview"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/Terradue/stac-transaction-api-client" class="fa fa-code-fork" style="color: #fcfcfc"> stac-transaction-api-client</a>
+        </span>
+    
+    
+      <span><a href="../" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

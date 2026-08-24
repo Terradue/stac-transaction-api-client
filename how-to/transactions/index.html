@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://eoap.github.io/stac-transaction-api-client/how-to/transactions/" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>Perform item transactions - STAC Transaction API Client</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../../assets/_mkdocstrings.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Perform item transactions";
+        var mkdocs_page_input_path = "how-to/transactions.md";
+        var mkdocs_page_url = "/stac-transaction-api-client/how-to/transactions/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../..">
+          <img src="../../imgs/icon-eoap.png" class="logo" alt="Logo"/>
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Tutorials</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../tutorials/">Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../tutorials/first-steps/">First steps</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">How-to guides</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../">Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../install/">Install</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Perform item transactions</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#create-a-client">Create a client</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#create-one-item">Create one item</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#retrieve-an-item">Retrieve an item</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#replace-an-item-with-put">Replace an item with PUT</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#patch-an-item">Patch an item</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#delete-an-item">Delete an item</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#use-asynchronous-calls">Use asynchronous calls</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#inspect-the-raw-http-response">Inspect the raw HTTP response</a>
+    </li>
+    </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Reference</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../reference/">Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../reference/api/">API objects</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Explanation</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../explanation/">Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../explanation/architecture/">Architecture and design</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">STAC Transaction API Client</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">How-to guides</li>
+      <li class="breadcrumb-item active">Perform item transactions</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/Terradue/stac-transaction-api-client/edit/main/docs/how-to/transactions.md">Edit on stac-transaction-api-client</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <!--
+Copyright 2026 Terradue
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<h1 id="perform-item-transactions">Perform item transactions<a class="headerlink" href="#perform-item-transactions" title="Permanent link">&para;</a></h1>
+<p>These recipes assume the package was installed with the PySTAC extra:</p>
+<div class="highlight"><pre><span></span><code><span class="go">python -m pip install "stac-transaction-api-client[pystac]"</span>
+</code></pre></div>
+<h2 id="create-a-client">Create a client<a class="headerlink" href="#create-a-client" title="Permanent link">&para;</a></h2>
+<p>For a public API:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">stac_transaction_api_client</span><span class="w"> </span><span class="kn">import</span> <span class="n">Client</span>
+
+<span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">base_url</span><span class="o">=</span><span class="s2">"https://stac.example.com"</span><span class="p">)</span>
+</code></pre></div>
+<p>For a bearer-token protected API:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">stac_transaction_api_client</span><span class="w"> </span><span class="kn">import</span> <span class="n">AuthenticatedClient</span>
+
+<span class="n">client</span> <span class="o">=</span> <span class="n">AuthenticatedClient</span><span class="p">(</span>
+    <span class="n">base_url</span><span class="o">=</span><span class="s2">"https://stac.example.com"</span><span class="p">,</span>
+    <span class="n">token</span><span class="o">=</span><span class="s2">"your-access-token"</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div>
+<p>You can also pass <code>headers</code>, <code>cookies</code>, <code>timeout</code>, <code>verify_ssl</code>,
+<code>follow_redirects</code>, and additional <code>httpx_args</code> when constructing either client.</p>
+<h2 id="create-one-item">Create one item<a class="headerlink" href="#create-one-item" title="Permanent link">&para;</a></h2>
+<p>Pass a <code>pystac.Item</code> to <code>post_feature</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timezone</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">pystac</span><span class="w"> </span><span class="kn">import</span> <span class="n">Item</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">stac_transaction_api_client.api.transaction</span><span class="w"> </span><span class="kn">import</span> <span class="n">post_feature</span>
+
+<span class="n">item</span> <span class="o">=</span> <span class="n">Item</span><span class="p">(</span>
+    <span class="nb">id</span><span class="o">=</span><span class="s2">"example-item"</span><span class="p">,</span>
+    <span class="n">geometry</span><span class="o">=</span><span class="p">{</span><span class="s2">"type"</span><span class="p">:</span> <span class="s2">"Point"</span><span class="p">,</span> <span class="s2">"coordinates"</span><span class="p">:</span> <span class="p">[</span><span class="mf">12.5</span><span class="p">,</span> <span class="mf">41.9</span><span class="p">]},</span>
+    <span class="n">bbox</span><span class="o">=</span><span class="p">[</span><span class="mf">12.5</span><span class="p">,</span> <span class="mf">41.9</span><span class="p">,</span> <span class="mf">12.5</span><span class="p">,</span> <span class="mf">41.9</span><span class="p">],</span>
+    <span class="n">datetime</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">),</span>
+    <span class="n">properties</span><span class="o">=</span><span class="p">{},</span>
+<span class="p">)</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">post_feature</span><span class="o">.</span><span class="n">sync_detailed</span><span class="p">(</span>
+    <span class="s2">"example-collection"</span><span class="p">,</span>
+    <span class="n">client</span><span class="o">=</span><span class="n">client</span><span class="p">,</span>
+    <span class="n">body</span><span class="o">=</span><span class="n">item</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">parsed</span><span class="p">)</span>
+</code></pre></div>
+<p>Use <code>post_feature.sync(...)</code> if you only need the parsed result.</p>
+<p>For bulk creation, pass a <code>pystac.ItemCollection</code> as <code>body</code>.</p>
+<h2 id="retrieve-an-item">Retrieve an item<a class="headerlink" href="#retrieve-an-item" title="Permanent link">&para;</a></h2>
+<p><code>get_feature</code> exposes detailed variants only:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">stac_transaction_api_client.api.transaction</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_feature</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">get_feature</span><span class="o">.</span><span class="n">sync_detailed</span><span class="p">(</span>
+    <span class="s2">"example-collection"</span><span class="p">,</span>
+    <span class="s2">"example-item"</span><span class="p">,</span>
+    <span class="n">client</span><span class="o">=</span><span class="n">client</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">item</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">parsed</span>
+<span class="k">if</span> <span class="n">item</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">to_dict</span><span class="p">())</span>
+</code></pre></div>
+<p>Use the detailed response when you need the ETag:</p>
+<div class="highlight"><pre><span></span><code><span class="n">etag</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"ETag"</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="replace-an-item-with-put">Replace an item with PUT<a class="headerlink" href="#replace-an-item-with-put" title="Permanent link">&para;</a></h2>
+<p><code>update_feature</code> requires the complete <code>pystac.Item</code> and an <code>if_match</code> string.
+Fetch the current resource first, then update it with the returned ETag:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">stac_transaction_api_client.api.transaction</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_feature</span><span class="p">,</span> <span class="n">update_feature</span>
+
+<span class="n">current</span> <span class="o">=</span> <span class="n">get_feature</span><span class="o">.</span><span class="n">sync_detailed</span><span class="p">(</span>
+    <span class="s2">"example-collection"</span><span class="p">,</span>
+    <span class="s2">"example-item"</span><span class="p">,</span>
+    <span class="n">client</span><span class="o">=</span><span class="n">client</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="k">if</span> <span class="n">current</span><span class="o">.</span><span class="n">parsed</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">"item not found"</span><span class="p">)</span>
+
+<span class="n">etag</span> <span class="o">=</span> <span class="n">current</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"ETag"</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">etag</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">"service did not return an ETag"</span><span class="p">)</span>
+
+<span class="n">current</span><span class="o">.</span><span class="n">parsed</span><span class="o">.</span><span class="n">properties</span><span class="p">[</span><span class="s2">"processing:state"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"ready"</span>
+
+<span class="n">updated</span> <span class="o">=</span> <span class="n">update_feature</span><span class="o">.</span><span class="n">sync_detailed</span><span class="p">(</span>
+    <span class="s2">"example-collection"</span><span class="p">,</span>
+    <span class="s2">"example-item"</span><span class="p">,</span>
+    <span class="n">client</span><span class="o">=</span><span class="n">client</span><span class="p">,</span>
+    <span class="n">body</span><span class="o">=</span><span class="n">current</span><span class="o">.</span><span class="n">parsed</span><span class="p">,</span>
+    <span class="n">if_match</span><span class="o">=</span><span class="n">etag</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div>
+<p>If another writer changed the resource first, the server can reject the request
+with <code>412 Precondition Failed</code>. Fetch the item again to obtain its new state and
+ETag before deciding whether to retry.</p>
+<h2 id="patch-an-item">Patch an item<a class="headerlink" href="#patch-an-item" title="Permanent link">&para;</a></h2>
+<p><code>patch_feature</code> maps to the HTTP <code>PATCH</code> endpoint and accepts <code>if_match</code>
+optionally:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">stac_transaction_api_client.api.transaction</span><span class="w"> </span><span class="kn">import</span> <span class="n">patch_feature</span>
+
+<span class="n">patched</span> <span class="o">=</span> <span class="n">patch_feature</span><span class="o">.</span><span class="n">sync_detailed</span><span class="p">(</span>
+    <span class="s2">"example-collection"</span><span class="p">,</span>
+    <span class="s2">"example-item"</span><span class="p">,</span>
+    <span class="n">client</span><span class="o">=</span><span class="n">client</span><span class="p">,</span>
+    <span class="n">body</span><span class="o">=</span><span class="p">{</span><span class="s2">"properties"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"quality"</span><span class="p">:</span> <span class="s2">"updated"</span><span class="p">}},</span>
+    <span class="n">if_match</span><span class="o">=</span><span class="n">etag</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div>
+<p>The partial mapping is sent as the JSON object required by the Transaction
+Extension. A complete <code>pystac.Item</code> is also accepted when appropriate.</p>
+<h2 id="delete-an-item">Delete an item<a class="headerlink" href="#delete-an-item" title="Permanent link">&para;</a></h2>
+<p><code>delete_feature</code> requires an <code>if_match</code> value:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">stac_transaction_api_client.api.transaction</span><span class="w"> </span><span class="kn">import</span> <span class="n">delete_feature</span><span class="p">,</span> <span class="n">get_feature</span>
+
+<span class="n">current</span> <span class="o">=</span> <span class="n">get_feature</span><span class="o">.</span><span class="n">sync_detailed</span><span class="p">(</span>
+    <span class="s2">"example-collection"</span><span class="p">,</span>
+    <span class="s2">"example-item"</span><span class="p">,</span>
+    <span class="n">client</span><span class="o">=</span><span class="n">client</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">etag</span> <span class="o">=</span> <span class="n">current</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"ETag"</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">etag</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">"service did not return an ETag"</span><span class="p">)</span>
+
+<span class="n">deleted</span> <span class="o">=</span> <span class="n">delete_feature</span><span class="o">.</span><span class="n">sync_detailed</span><span class="p">(</span>
+    <span class="s2">"example-collection"</span><span class="p">,</span>
+    <span class="s2">"example-item"</span><span class="p">,</span>
+    <span class="n">client</span><span class="o">=</span><span class="n">client</span><span class="p">,</span>
+    <span class="n">if_match</span><span class="o">=</span><span class="n">etag</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">deleted</span><span class="o">.</span><span class="n">status_code</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="use-asynchronous-calls">Use asynchronous calls<a class="headerlink" href="#use-asynchronous-calls" title="Permanent link">&para;</a></h2>
+<p>Each mutation module exposes <code>asyncio_detailed(...)</code> and <code>asyncio(...)</code> variants.
+<code>get_feature</code> exposes <code>asyncio_detailed(...)</code>.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">stac_transaction_api_client</span><span class="w"> </span><span class="kn">import</span> <span class="n">Client</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">stac_transaction_api_client.api.transaction</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_feature</span>
+
+
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">async</span> <span class="k">with</span> <span class="n">Client</span><span class="p">(</span><span class="n">base_url</span><span class="o">=</span><span class="s2">"https://stac.example.com"</span><span class="p">)</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="k">await</span> <span class="n">get_feature</span><span class="o">.</span><span class="n">asyncio_detailed</span><span class="p">(</span>
+            <span class="s2">"example-collection"</span><span class="p">,</span>
+            <span class="s2">"example-item"</span><span class="p">,</span>
+            <span class="n">client</span><span class="o">=</span><span class="n">client</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">)</span>
+
+
+<span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
+</code></pre></div>
+<h2 id="inspect-the-raw-http-response">Inspect the raw HTTP response<a class="headerlink" href="#inspect-the-raw-http-response" title="Permanent link">&para;</a></h2>
+<p>Use a <code>*_detailed</code> function whenever you need more than the parsed object. It
+returns <code>Response[T]</code> with:</p>
+<ul>
+<li><code>status_code</code>: an <code>http.HTTPStatus</code> value;</li>
+<li><code>headers</code>: the response headers, including ETag when supplied by the server;</li>
+<li><code>content</code>: raw response bytes;</li>
+<li><code>parsed</code>: the parsed PySTAC Item, error model, or <code>None</code>, depending on the endpoint and status.</li>
+</ul>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../install/" class="btn btn-neutral float-left" title="Install"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../../reference/" class="btn btn-neutral float-right" title="Overview">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/Terradue/stac-transaction-api-client" class="fa fa-code-fork" style="color: #fcfcfc"> stac-transaction-api-client</a>
+        </span>
+    
+    
+      <span><a href="../install/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../../reference/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
