@@ -12,6 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from collections.abc import Mapping
 from http import HTTPStatus
 from typing import Any, cast
 from urllib.parse import quote
@@ -28,7 +29,7 @@ def _get_kwargs(
     collection_id: str,
     feature_id: str,
     *,
-    body: Item | Unset = UNSET,
+    body: Mapping[str, Any] | Item | Unset = UNSET,
     if_match: str | Unset = UNSET,
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
@@ -44,7 +45,7 @@ def _get_kwargs(
     }
 
     if not isinstance(body, Unset):
-        _kwargs["json"] = body.to_dict()
+        _kwargs["json"] = dict(body) if isinstance(body, Mapping) else body.to_dict()
 
     headers["Content-Type"] = "application/json"
 
@@ -92,7 +93,7 @@ def sync_detailed(
     feature_id: str,
     *,
     client: AuthenticatedClient | Client,
-    body: Item | Unset = UNSET,
+    body: Mapping[str, Any] | Item | Unset = UNSET,
     if_match: str | Unset = UNSET,
 ) -> Response[Any | Exception_ | Item]:
     """update an existing feature by Id with a partial item definition
@@ -104,7 +105,7 @@ def sync_detailed(
         collection_id (str):
         feature_id (str):
         if_match (str | Unset):
-        body (Item | Unset): An object that contains at least a subset of the fields for a
+        body (Mapping[str, Any] | Item | Unset): An object that contains at least a subset of the fields for a
             STAC Item.
 
     Raises:
@@ -134,7 +135,7 @@ def sync(
     feature_id: str,
     *,
     client: AuthenticatedClient | Client,
-    body: Item | Unset = UNSET,
+    body: Mapping[str, Any] | Item | Unset = UNSET,
     if_match: str | Unset = UNSET,
 ) -> Any | Exception_ | Item | None:
     """update an existing feature by Id with a partial item definition
@@ -146,7 +147,7 @@ def sync(
         collection_id (str):
         feature_id (str):
         if_match (str | Unset):
-        body (Item | Unset): An object that contains at least a subset of the fields for a
+        body (Mapping[str, Any] | Item | Unset): An object that contains at least a subset of the fields for a
             STAC Item.
 
     Raises:
@@ -171,7 +172,7 @@ async def asyncio_detailed(
     feature_id: str,
     *,
     client: AuthenticatedClient | Client,
-    body: Item | Unset = UNSET,
+    body: Mapping[str, Any] | Item | Unset = UNSET,
     if_match: str | Unset = UNSET,
 ) -> Response[Any | Exception_ | Item]:
     """update an existing feature by Id with a partial item definition
@@ -183,7 +184,7 @@ async def asyncio_detailed(
         collection_id (str):
         feature_id (str):
         if_match (str | Unset):
-        body (Item | Unset): An object that contains at least a subset of the fields for a
+        body (Mapping[str, Any] | Item | Unset): An object that contains at least a subset of the fields for a
             STAC Item.
 
     Raises:
@@ -211,7 +212,7 @@ async def asyncio(
     feature_id: str,
     *,
     client: AuthenticatedClient | Client,
-    body: Item | Unset = UNSET,
+    body: Mapping[str, Any] | Item | Unset = UNSET,
     if_match: str | Unset = UNSET,
 ) -> Any | Exception_ | Item | None:
     """update an existing feature by Id with a partial item definition
@@ -223,7 +224,7 @@ async def asyncio(
         collection_id (str):
         feature_id (str):
         if_match (str | Unset):
-        body (Item | Unset): An object that contains at least a subset of the fields for a
+        body (Mapping[str, Any] | Item | Unset): An object that contains at least a subset of the fields for a
             STAC Item.
 
     Raises:
