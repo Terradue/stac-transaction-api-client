@@ -124,15 +124,12 @@ examples.
 
 ## Current payload typing
 
-The implementation intentionally reuses PySTAC instead of generated STAC models.
-Two current type boundaries are important when integrating it:
+The implementation reuses PySTAC instead of generated STAC models for complete
+items:
 
-- `post_feature` is reliable for a single `pystac.Item`. Its generated annotation
-  also includes `pystac.Collection`, while the Transaction specification describes
-  bulk creation in terms of an ItemCollection.
-- `patch_feature` currently accepts a `pystac.Item`, not an arbitrary JSON Merge
-  Patch dictionary. The HTTP endpoint is `PATCH`, but the Python type does not yet
-  model a free-form RFC 7386 fragment.
+- `post_feature` accepts either a `pystac.Item` or `pystac.ItemCollection`;
+- `update_feature` accepts a complete `pystac.Item`;
+- `patch_feature` accepts a partial mapping or a complete `pystac.Item`.
 
 The [API reference](https://eoap.github.io/stac-transaction-api-client/reference/)
 documents the exact signatures exposed by the current codebase.

@@ -78,7 +78,6 @@ include = [
 packages = ["src/stac_transaction_api_client"]
 
 [tool.coverage.run]
-source_pkgs = ["stac_transaction_api_client", "tests"]
 branch = true
 parallel = true
 omit = [
@@ -101,12 +100,13 @@ skip-install = false
 dependencies = [
   "pytest>=8.4,<10",
   "pytest-cov>=6.2,<8",
+  "pystac==1.15.2",
 ]
 
 [tool.hatch.envs.test.scripts]
 test = "pytest {args:tests}"
 testv = "pytest --verbose {args:tests}"
-test-cov = "pytest --cov=stac-transaction-api-client --cov-report=term-missing {args:tests}"
+test-cov = "pytest --cov=stac_transaction_api_client --cov-report=term-missing {args:tests}"
 test-show-setup = "pytest --setup-show"
 
 [tool.pytest.ini_options]
@@ -122,6 +122,7 @@ python = ["3.10", "3.11", "3.12", "3.13", "3.14"]
 [tool.hatch.envs.dev]
 skip-install = false
 dependencies = [
+  "pytest>=8.4,<10",
   "pystac==1.15.2",
   "mypy>=2.3.0",
   "ruff>=0.16.0",

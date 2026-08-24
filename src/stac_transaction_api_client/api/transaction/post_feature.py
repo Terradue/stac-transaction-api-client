@@ -17,7 +17,7 @@ from typing import Any, cast
 from urllib.parse import quote
 
 import httpx
-from pystac import Collection, Item
+from pystac import Item, ItemCollection
 
 from ...client import AuthenticatedClient, Client
 from ...models import Exception as Exception_
@@ -27,7 +27,7 @@ from ...types import UNSET, Response, Unset
 def _get_kwargs(
     collection_id: str,
     *,
-    body: Item | Collection | Unset = UNSET,
+    body: Item | ItemCollection | Unset = UNSET,
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
 
@@ -38,7 +38,7 @@ def _get_kwargs(
         ),
     }
 
-    if body:
+    if not isinstance(body, Unset):
         _kwargs["json"] = body.to_dict()
         headers["Content-Type"] = "application/json"
 
@@ -56,15 +56,15 @@ def _parse_response(
         return cast("Any", None)
 
     if response.status_code == 400:
-        return Exception_.model_validate_json(response.json())
+        return Exception_.model_validate(response.json())
 
     if response.status_code == 404:
         return cast("Any", None)
 
     if response.status_code == 500:
-        return Exception_.model_validate_json(response.json())
+        return Exception_.model_validate(response.json())
 
-    return Exception_.model_validate_json(response.json())
+    return Exception_.model_validate(response.json())
 
 
 def _build_response(
@@ -82,7 +82,7 @@ def sync_detailed(
     collection_id: str,
     *,
     client: AuthenticatedClient | Client,
-    body: Item | Collection | Unset = UNSET,
+    body: Item | ItemCollection | Unset = UNSET,
 ) -> Response[Any | Exception_ | Item]:
     """add a new STAC Item or Items in an ItemCollection to a collection
 
@@ -90,7 +90,7 @@ def sync_detailed(
 
     Args:
         collection_id (str):
-        body (Item | Collection | Unset):
+        body (Item | ItemCollection | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -116,7 +116,7 @@ def sync(
     collection_id: str,
     *,
     client: AuthenticatedClient | Client,
-    body: Item | Collection | Unset = UNSET,
+    body: Item | ItemCollection | Unset = UNSET,
 ) -> Any | Exception_ | Item | None:
     """add a new STAC Item or Items in an ItemCollection to a collection
 
@@ -124,7 +124,7 @@ def sync(
 
     Args:
         collection_id (str):
-        body (Item | Collection | Unset):
+        body (Item | ItemCollection | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -145,7 +145,7 @@ async def asyncio_detailed(
     collection_id: str,
     *,
     client: AuthenticatedClient | Client,
-    body: Item | Collection | Unset = UNSET,
+    body: Item | ItemCollection | Unset = UNSET,
 ) -> Response[Any | Exception_ | Item]:
     """add a new STAC Item or Items in an ItemCollection to a collection
 
@@ -153,7 +153,7 @@ async def asyncio_detailed(
 
     Args:
         collection_id (str):
-        body (Item | Collection | Unset):
+        body (Item | ItemCollection | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -177,7 +177,7 @@ async def asyncio(
     collection_id: str,
     *,
     client: AuthenticatedClient | Client,
-    body: Item | Collection | Unset = UNSET,
+    body: Item | ItemCollection | Unset = UNSET,
 ) -> Any | Exception_ | Item | None:
     """add a new STAC Item or Items in an ItemCollection to a collection
 
@@ -185,7 +185,7 @@ async def asyncio(
 
     Args:
         collection_id (str):
-        body (Item | Collection | Unset):
+        body (Item | ItemCollection | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

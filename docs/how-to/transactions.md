@@ -77,11 +77,7 @@ print(response.parsed)
 
 Use `post_feature.sync(...)` if you only need the parsed result.
 
-!!! note "Bulk create typing"
-    The current generated signature also accepts `pystac.Collection`. The STAC
-    Transaction specification defines bulk creation using an ItemCollection, not
-    a STAC Collection metadata object. Prefer single-item creation until the
-    Python body type is aligned with that specification contract.
+For bulk creation, pass a `pystac.ItemCollection` as `body`.
 
 ## Retrieve an item
 
@@ -155,17 +151,13 @@ patched = patch_feature.sync_detailed(
     "example-collection",
     "example-item",
     client=client,
-    body=current.parsed,
+    body={"properties": {"quality": "updated"}},
     if_match=etag,
 )
 ```
 
-!!! important "Current PATCH body type"
-    The Transaction Extension defines PATCH semantics using JSON Merge Patch.
-    The current Python signature is typed as `pystac.Item | Unset` and serializes
-    the body through `Item.to_dict()`. It therefore does not expose an arbitrary
-    dictionary fragment for RFC 7386 merge-patch operations. Use this endpoint
-    only when a PySTAC Item payload is appropriate for the target service.
+The partial mapping is sent as the JSON object required by the Transaction
+Extension. A complete `pystac.Item` is also accepted when appropriate.
 
 ## Delete an item
 

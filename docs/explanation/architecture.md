@@ -143,29 +143,25 @@ contain the concurrency token.
 
 ## Where the generated typing does not fully match the specification
 
-Reusing PySTAC simplifies the common single-item path, but two generated body
-types currently do not model the upstream Transaction specification exactly.
+Reusing PySTAC simplifies complete-item payloads, while mappings represent
+partial PATCH payloads.
 
 ### POST and ItemCollection
 
 The Transaction Extension describes POST bodies as an Item or ItemCollection.
-The current `post_feature` module imports `pystac.Collection` and types the body
-as `Item | Collection | Unset`. A PySTAC Collection represents STAC Collection
-metadata, not an ItemCollection. For that reason, the documentation treats
-single-item POST as the supported path and does not present `pystac.Collection`
-as a bulk-create mechanism.
+The `post_feature` module therefore accepts `pystac.Item` and
+`pystac.ItemCollection`; it does not confuse bulk item creation with a STAC
+Collection metadata object.
 
 ### PATCH and JSON Merge Patch
 
 The Transaction Extension defines PATCH according to JSON Merge Patch semantics.
-The current `patch_feature` body is typed as `pystac.Item | Unset` and is
-serialized with `Item.to_dict()`. That is convenient for item-shaped payloads,
-but it does not expose a free-form dictionary containing only the fields to be
-merged.
+The `patch_feature` body accepts a mapping containing only the fields to be
+merged. It also retains `pystac.Item` support for applications that intentionally
+send an item-shaped payload.
 
-These are model-boundary constraints rather than transport constraints. The
-underlying `httpx` client can still make arbitrary HTTP requests when an
-application needs behavior not represented by a generated endpoint signature.
+The underlying `httpx` client remains available for requests outside the
+generated endpoint signatures.
 
 ## Sync and async symmetry
 

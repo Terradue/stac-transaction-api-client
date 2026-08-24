@@ -64,13 +64,11 @@ a required `code`, an optional `description`, and allows additional fields.
 
 ## Current PySTAC body types
 
-- `post_feature`: `pystac.Item | pystac.Collection | Unset`.
+- `post_feature`: `pystac.Item | pystac.ItemCollection | Unset`.
 - `update_feature`: `pystac.Item | Unset`.
-- `patch_feature`: `pystac.Item | Unset`.
+- `patch_feature`: `Mapping[str, Any] | pystac.Item | Unset`.
 
-The upstream Transaction specification describes POST bulk payloads as
-ItemCollections and PATCH payloads as JSON Merge Patch fragments. Those concepts
-are not fully represented by the current generated Python annotations, so the
-how-to guides favor single-item POST and call out the PATCH constraint.
+These types represent the upstream contract's single-item, bulk-item, and
+partial-item payloads while retaining PySTAC convenience for complete items.
 
 For generated signatures and docstrings, see [API objects](api.md).

@@ -39,3 +39,4 @@ site/
 
 .ruff_cache
 .task
+uv.lock

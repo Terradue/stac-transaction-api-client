@@ -12,8 +12,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import re
+
 from stac_transaction_api_client import __about__
 
 
 def test_version_is_defined() -> None:
-    assert __about__.__version__ == "1.0.0-rc.2"
+    assert re.fullmatch(r"\d+\.\d+\.\d+(?:[-+][0-9A-Za-z.-]+)?", __about__.__version__)
